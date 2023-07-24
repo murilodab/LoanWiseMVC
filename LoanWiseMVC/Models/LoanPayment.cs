@@ -14,7 +14,7 @@
     
         public decimal Balance { get; set; }
 
-        public List<LoanPayment> Payments { get; set; } = new List<LoanPayment>();
+       
 
 
     }

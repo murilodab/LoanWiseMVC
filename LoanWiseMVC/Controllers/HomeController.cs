@@ -1,4 +1,5 @@
 ﻿using LoanWiseMVC.Models;
+using LoanWiseMVC.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -25,7 +26,28 @@ namespace LoanWiseMVC.Controllers
 
         public IActionResult App()
         {
-            return View();
+            Loan loan = new();
+
+            loan.Payment = 0.0m;
+            loan.TotalInterest = 0.0m;
+            loan.TotalCost = 0.0m;
+            loan.Rate = 3.5m;
+            loan.Amount = 150000m;
+            loan.Term = 60;
+
+            return View(loan);
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public  IActionResult App(Loan loan)
+        {
+            //Calculate the loan and get the payments
+            var loanHelper = new LoanHelper();
+
+            Loan newLoan = loanHelper.GetPayments(loan);
+
+            return View(newLoan);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
